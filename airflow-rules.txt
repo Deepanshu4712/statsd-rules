@@ -1,0 +1,74 @@
+TAGTYPE = None
+# For each job and operator
+local_task_job_start = FLAT(namespace: none, prefix: airflow, metric:[localtaskjob_start: integer])
+local_task_job_end = FLAT(namespace: none, prefix: airflow, metric:[localtaskjob_end: integer])
+local_task_job_heartbeat_failure = FLAT(namespace: none, prefix: airflow, metric:[localtaskjob_heartbeat_failure: integer])
+scheduler_job_start = FLAT(namespace: none, prefix: airflow, metric:[schedulerjob_start: integer])
+scheduler_job_end = FLAT(namespace: none, prefix: airflow, metric:[schedulerjob_end: integer])
+scheduler_job_heartbeat_failure = FLAT(namespace: none, prefix: airflow, metric:[schedulerjob_heartbeat_failure: integer])
+operator_failures_BranchPythonOperator = FLAT(namespace: none, prefix: airflow, metric:[operator_failures_BranchPythonOperator: integer])
+operator_successes_BranchPythonOperator = FLAT(namespace: none, prefix: airflow, metric:[operator_successes_BranchPythonOperator: integer])
+operator_failures_DummyOperator = FLAT(namespace: none, prefix: airflow, metric:[operator_failures_DummyOperator: integer])
+operator_successes_DummyOperator = FLAT(namespace: none, prefix: airflow, metric:[operator_successes_DummyOperator: integer])
+RENDER(_documentType: airflow-job  ,local_task_job_start ,local_task_job_end ,local_task_job_heartbeat_failure ,scheduler_job_start ,scheduler_job_end ,scheduler_job_heartbeat_failure ,operator_failures_BranchPythonOperator ,operator_successes_BranchPythonOperator ,operator_failures_DummyOperator ,operator_successes_DummyOperator)
+
+#Task
+task_instance_created-BranchPythonOperator =  FLAT(namespace: none, prefix: airflow, metric:[task_instance_created-BranchPythonOperator: integer])
+task_instance_created-DummyOperator =  FLAT(namespace: none, prefix: airflow, metric:[task_instance_created-DummyOperator: integer])
+task_instance_created-BashOperator =  FLAT(namespace: none, prefix: airflow, metric:[task_instance_created-BashOperator: integer])
+total_task_failures = FLAT(namespace: none, prefix: airflow, metric:[ti_failures: integer])
+total_task_successes = FLAT(namespace: none, prefix: airflow, metric:[ti_successes: integer])
+previously_succeeded = FLAT(namespace: none, prefix: airflow, metric:[previously_succeeded: integer])
+zombies_killed = FLAT(namespace: none, prefix: airflow, metric:[zombies_killed: integer])
+scheduler_heartbeat = FLAT(namespace: none, prefix: airflow, metric:[scheduler_heartbeat: integer])
+
+tasks_killed = FLAT(namespace: airflow, prefix: scheduler.tasks, metric:[killed_externally: integer])
+orphaned_clear = FLAT(namespace: airflow, prefix: scheduler.orphaned_tasks, metric:[cleared: integer])
+orphaned_adopted = FLAT(namespace: airflow, prefix: scheduler.orphaned_tasks, metric:[adopted: integer])
+critical_section_busy = FLAT(namespace: airflow, prefix: scheduler, metric:[critical_section_busy: integer])
+sla_email_notification_failure = FLAT(namespace: none, prefix: airflow, metric:[sla_email_notification_failure: integer])
+task_timeout_error = FLAT(namespace: airflow, prefix: celery, metric:[task_timeout_error: integer])
+## task_removed_from_dag = NESTED(namespace: none, prefix: airflow, key: dag_id, metric:[task_removed_from_dag: integer], metric_pos: $2)
+## task_restored_to_dag = NESTED(namespace: none, prefix: airflow, key: dag_id, metric:[task_restored_to_dag: integer], metric_pos: $2)
+
+#DAG
+callback_exceptions = FLAT(namespace: airflow, prefix: dag, metric:[callback_exceptions: integer])
+dag_processes = FLAT(namespace: airflow, prefix: dag_processing, metric:[processes: integer])
+dag_manager_stalls = FLAT(namespace: airflow, prefix: dag_processing, metric:[manager_stalls: integer])
+dag_file_refresh_error = FLAT(namespace: none, prefix: airflow, metric:[dag_file_refresh_error: integer])
+dagbag_size = FLAT(namespace: none, prefix: airflow, metric:[dagbag_size: integer])
+import_errors = FLAT(namespace: airflow, prefix: dag_processing, metric:[import_errors: integer])
+total_parse_time = FLAT(namespace: airflow, prefix: dag_processing, metric:[total_parse_time: integer])
+dag_last_duration = NESTED(namespace: airflow, prefix: dag_processing, key: dag_file, metric: [last_runtime: float, last_duration: float], metric_pos: $3)
+dag_last_run = NESTED(namespace: airflow, prefix: dag_processing.last_run, key: dag_file, metric:[seconds_ago: float], metric_pos: $4)
+dag_processor_timeouts = FLAT(namespace: airflow, prefix: dag_processing, metric:[processor_timeouts: float])
+dagrun_duration = NESTED(namespace: airflow, prefix: dagrun.duration, key: dag_id, metric: [success: float, failed: float], metric_pos: $4)
+dagrun_details = NESTED(namespace: airflow, prefix: dagrun, key: dag_id, metric: [schedule_delay: float, dependency-check: float], metric_pos: $3)
+dagrun_first_task_scheduling_delay =  NESTED(namespace: airflow, prefix: dagrun, key: dag_id, metric: [first_task_scheduling_delay: float], metric_pos: $-1, expection_string: first_task_scheduling_delay)
+collect_db_dags = FLAT(namespace: none, prefix: airflow, metric:[collect_db_dags: integer])
+
+
+#Scheduler
+scheduler_critical_section_duration = FLAT(namespace: airflow, prefix: scheduler, metric:[critical_section_duration: float])
+scheduler_task_wo_dagrun = FLAT(namespace: airflow, prefix: scheduler.tasks, metric:[without_dagrun: float])
+scheduler_task_running = FLAT(namespace: airflow, prefix: scheduler.tasks, metric:[running: float])
+scheduler_task_starving = FLAT(namespace: airflow, prefix: scheduler.tasks, metric:[starving: float])
+scheduler_task_executable = FLAT(namespace: airflow, prefix: scheduler.tasks, metric:[executable: float])
+executor_open_slots = FLAT(namespace: airflow, prefix: executor, metric:[open_slots: float])
+executor_queued_tasks = FLAT(namespace: airflow, prefix: executor, metric:[queued_tasks: float])
+executor_running_tasks = FLAT(namespace: airflow, prefix: executor, metric:[running_tasks: float])
+pool_details = NESTED(namespace: airflow, prefix: pool, key: pool_name, metric: [open_slots: float, queued_slots: float, running_slots: float, starving_tasks: float], metric_pos: $3)
+sensor_op_poked_tasks = FLAT(namespace: airflow, prefix: smart_sensor_operator, metric:[poked_tasks: float])
+sensor_op_poked_success = FLAT(namespace: airflow, prefix: smart_sensor_operator, metric:[poked_success: float])
+sensor_op_poked_exception = FLAT(namespace: airflow, prefix: smart_sensor_operator, metric:[poked_exception: float])
+sensor_op_exception_failures = FLAT(namespace: airflow, prefix: smart_sensor_operator, metric:[exception_failures: float])
+sensor_op_infra_failures = FLAT(namespace: airflow, prefix: smart_sensor_operator, metric:[infra_failures: float])
+
+
+RENDER(_documentType: airflow-task ,task_instance_created-BranchPythonOperator ,task_instance_created-DummyOperator , task_instance_created-BashOperator,total_task_failures ,total_task_successes ,previously_succeeded ,zombies_killed ,tasks_killed)
+
+RENDER(_documentType: airflow-scheduler ,orphaned_clear ,orphaned_adopted ,critical_section_busy ,scheduler_heartbeat ,scheduler_task_wo_dagrun ,scheduler_task_running ,scheduler_task_starving ,scheduler_task_executable ,scheduler_critical_section_duration ,executor_open_slots ,executor_queued_tasks ,executor_running_tasks ,pool_details)
+
+RENDER(_documentType: airflow-dag , dag_processes , dag_manager_stalls ,dag_file_refresh_error ,callback_exceptions ,dagbag_size ,import_errors ,total_parse_time ,dag_last_duration ,dag_last_run ,dag_processor_timeouts ,dagrun_duration ,dagrun_details ,dagrun_first_task_scheduling_delay ,collect_db_dags)
+
+RENDER(_documentType: airflow ,sla_email_notification_failure ,task_timeout_error ,sensor_op_poked_tasks ,sensor_op_poked_success ,sensor_op_poked_exception ,sensor_op_exception_failures ,sensor_op_infra_failures)
