@@ -1,0 +1,14 @@
+key: CHANGEME
+tags:
+  Name: CHANGEME
+  appName: CHANGEME
+  projectName: CHANGEME
+metrics:
+  plugins:
+    - name: statsd
+      enabled: true
+      config:
+        port: 8125
+        flushInterval: 30
+        ruleFile: /PATH/TO/STATSD_RULES_FILE
+es_index_without_suffix: false
